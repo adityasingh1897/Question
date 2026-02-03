@@ -1,0 +1,86 @@
+Here are REAL, scenario-based Spring Boot interview questions:
+
+1. Your Spring Boot app works locally but fails after deployment. What do you check first?
+2. An API is fast locally but very slow in production. How do you debug it?
+3. You changed application.properties but nothing changed in prod. Why?
+4. Under high traffic, your service crashes even though CPU is low. What’s wrong?
+5. Multiple beans of the same type exist and the app fails to start. How do you fix it?
+6. You need different configs for dev, test, and prod. How do you design this?
+7. APIs randomly return 401 or 403 errors. What could be the reason?
+8. Database connection pool suddenly gets exhausted. How do you identify and solve it?
+9. One dependent microservice is down and your service also fails. What’s your approach?
+10. Application memory usage keeps increasing over time. What do you suspect?
+11. @Transactional is present but rollback doesn’t happen. Why?
+12. Users still hit old behavior after a new deployment. What went wrong?
+13. Logs are missing in production. Where do you start checking?
+14. A REST API returns correct data but response time is inconsistent. Why?
+15. How do you trace a request across multiple Spring Boot services?
+16. You need zero-downtime deployment. How will you achieve it?
+17. A background job affects API response time. How do you isolate it?
+18. Application behaves differently inside Docker than locally. Why?
+19. Lazy loading causes exceptions in production but not locally. Why?
+20. What are the most common Spring Boot mistakes that break production?
+
+
+
+
+1. How to implement payment gateway?
+2. How to store customer sensitive data like account information in database ?
+3. what is @ComponentScan what is the use of it.
+4. We have a list of integers. Find out all the numbers starting with 1 using stream function
+a. 11, 18, 20, 24, 85, 66, 13
+5. We have a list of employees, in which we have id, name, age, gender and salary.
+a. How many male and female employees are there in the organization.
+b. Take out average salary based on employee gender.
+6. Write a java program to find sum of even numbers and sum of odd numbers in a given list using java 8 streams.
+7. How to find duplicate elements in a given integers list in java using Streams function.
+8. I need to compare if two arrays are same, but the order does not matter, just compare the elements in arr1 to elements in arr2
+a. arr1 = [3, 2, 5, 7]
+b. arr2 = [2, 3, 5, 7]
+9. I will provide a string, remove all the occurrences of a given character from that string?
+10. Finding special character in the String, special characters are those characters which are not alphabets or not numbers.
+11. Write a program to check if given strings are rotations of each other or not
+12. Write a program to Find the missing number from the array
+13. Write a program to convert first half of the String in lower case and second half in upper case
+14. Java 8 Program to get Highest paid Employee in Each department using stream api?
+15. Write a java 8 program to find the words starting with vowels
+16.Write a java 8 program to print employees count working in each department
+17.Write a java 8 program to print active and inactive employees in the given collection
+18.Write a java 8 program to print employee details working in each department
+19.Write a java 8 program to print max salary of employee in each department max/min employee salary in given collection
+21.Write a Java 8 method to find the sum of all elements in a List of integers.
+
+
+
+#Spring & Dependency Injection
+
+They asked what designpatterns I am using in my project. Then questions moved to Dependency Injection what it is and different ways to inject beans in Spring. They also asked which injection is recommended and why.
+I was asked about the bean life cycle, bean scopes, and the default bean scope.
+They also asked the difference between ApplicationContext and Spring Context, and what the @Configuration annotation is.
+
+hashtag#Microservices & Communication
+
+Questions were asked on how microservices communicate with each other.
+They asked about RestTemplate and WebClient.
+They also asked if I know about Feign Client and why it is not recommended for production use in some cases.
+
+hashtag#CoreJava & hashtag#Multithreading
+
+From core Java, they asked about the volatile keyword.
+Then questions on multithreading like how to create a thread and whether I have created threads in my project.
+Here the discussion was more around the idea that in real production applications, we usually don't create threads manually.
+
+hashtag#Collections & Data Structures
+
+They asked about the internal working of HashMap.
+Difference between Collection and Collections was also asked.
+
+hashtag#Coding Questions
+
+I was asked to write a program to count character frequency and print it in ascending order.
+Another program was to print all substrings of a given string.
+
+SQL
+
+At the end, they asked a basic SQL query related to data retrieval.
+Overall, the interview focused more on fundamentals, real project usage, and approach to problem-solving rather than just theory.
