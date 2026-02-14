@@ -1,4 +1,4 @@
-public class Srishty {
+public class StringClass {
     public static void main(String[] args) {
         String s="abc";
         String s1="  cde  ";
