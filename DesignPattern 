@@ -1,0 +1,391 @@
+🟢 CREATIONAL PATTERNS (Object creation)
+1️⃣ Singleton
+Definition
+
+Ensures a class has only one instance and provides a global access point.
+
+Real Example
+
+Logger, DB connection, Spring bean (default singleton).
+
+Code
+public class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+
+Thread-safe version:
+
+public static synchronized Singleton getInstance() {
+    if (instance == null) {
+        instance = new Singleton();
+    }
+    return instance;
+}
+
+2️⃣ Factory Method
+Definition
+
+Defines an interface for creating objects but lets subclasses decide which class to instantiate.
+
+Real Example
+
+Payment gateway selection.
+
+Code
+interface Payment {
+    void pay();
+}
+
+class CreditCardPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid using Credit Card");
+    }
+}
+
+class PaymentFactory {
+    public static Payment getPayment(String type) {
+        if (type.equals("credit"))
+            return new CreditCardPayment();
+        return null;
+    }
+}
+
+
+Usage:
+
+Payment payment = PaymentFactory.getPayment("credit");
+payment.pay();
+
+3️⃣ Abstract Factory
+Definition
+
+Provides an interface for creating families of related objects.
+
+Real Example
+
+Windows UI vs Mac UI components.
+
+Code
+interface Button {
+    void paint();
+}
+
+class WindowsButton implements Button {
+    public void paint() {
+        System.out.println("Windows Button");
+    }
+}
+
+interface GUIFactory {
+    Button createButton();
+}
+
+class WindowsFactory implements GUIFactory {
+    public Button createButton() {
+        return new WindowsButton();
+    }
+}
+
+4️⃣ Builder
+Definition
+
+Separates object construction from its representation.
+
+Real Example
+
+Creating immutable objects with many fields.
+
+Code
+class User {
+    private String name;
+    private int age;
+
+    private User(Builder builder) {
+        this.name = builder.name;
+        this.age = builder.age;
+    }
+
+    static class Builder {
+        private String name;
+        private int age;
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setAge(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
+}
+
+
+Usage:
+
+User user = new User.Builder()
+                .setName("Adi")
+                .setAge(25)
+                .build();
+
+5️⃣ Prototype
+Definition
+
+Creates new objects by cloning existing ones.
+
+Real Example
+
+Copying configuration objects.
+
+Code
+class Employee implements Cloneable {
+    String name;
+
+    public Employee clone() throws CloneNotSupportedException {
+        return (Employee) super.clone();
+    }
+}
+
+🔵 STRUCTURAL PATTERNS
+6️⃣ Adapter
+Definition
+
+Converts one interface into another expected by client.
+
+Example
+
+Legacy API integration.
+
+Code
+interface Target {
+    void request();
+}
+
+class Adaptee {
+    void specificRequest() {
+        System.out.println("Specific request");
+    }
+}
+
+class Adapter implements Target {
+    private Adaptee adaptee = new Adaptee();
+
+    public void request() {
+        adaptee.specificRequest();
+    }
+}
+
+7️⃣ Decorator
+Definition
+
+Adds behavior dynamically without modifying original class.
+
+Example
+
+Coffee with extra toppings.
+
+Code
+interface Coffee {
+    String getDescription();
+}
+
+class SimpleCoffee implements Coffee {
+    public String getDescription() {
+        return "Simple Coffee";
+    }
+}
+
+class MilkDecorator implements Coffee {
+    private Coffee coffee;
+
+    public MilkDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    public String getDescription() {
+        return coffee.getDescription() + ", Milk";
+    }
+}
+
+8️⃣ Facade
+Definition
+
+Provides simplified interface to complex subsystem.
+
+Example
+
+Service layer in Spring.
+
+Code
+class CPU {
+    void start() {
+        System.out.println("CPU Started");
+    }
+}
+
+class ComputerFacade {
+    private CPU cpu = new CPU();
+
+    void startComputer() {
+        cpu.start();
+    }
+}
+
+9️⃣ Proxy
+Definition
+
+Provides placeholder to control access to real object.
+
+Example
+
+Spring AOP, Hibernate lazy loading.
+
+Code
+interface Image {
+    void display();
+}
+
+class RealImage implements Image {
+    public void display() {
+        System.out.println("Displaying Image");
+    }
+}
+
+class ProxyImage implements Image {
+    private RealImage realImage;
+
+    public void display() {
+        if (realImage == null)
+            realImage = new RealImage();
+        realImage.display();
+    }
+}
+
+🟣 BEHAVIORAL PATTERNS
+🔟 Observer
+Definition
+
+One-to-many dependency. When one changes, all notified.
+
+Example
+
+Event listeners.
+
+Code
+import java.util.*;
+
+interface Observer {
+    void update();
+}
+
+class Subject {
+    private List<Observer> observers = new ArrayList<>();
+
+    void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    void notifyObservers() {
+        for (Observer o : observers)
+            o.update();
+    }
+}
+
+1️⃣1️⃣ Strategy
+Definition
+
+Encapsulates interchangeable algorithms.
+
+Example
+
+Different payment methods.
+
+Code
+interface Strategy {
+    void execute();
+}
+
+class StrategyA implements Strategy {
+    public void execute() {
+        System.out.println("Strategy A");
+    }
+}
+
+class Context {
+    private Strategy strategy;
+
+    Context(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    void perform() {
+        strategy.execute();
+    }
+}
+
+1️⃣2️⃣ Template Method
+Definition
+
+Defines skeleton of algorithm; subclasses override steps.
+
+Example
+
+JdbcTemplate.
+
+Code
+abstract class Game {
+    abstract void start();
+    abstract void play();
+
+    final void run() {
+        start();
+        play();
+    }
+}
+
+1️⃣3️⃣ Chain of Responsibility
+Definition
+
+Pass request along chain until handled.
+
+Example
+
+Spring Security filter chain.
+
+Code
+abstract class Handler {
+    protected Handler next;
+
+    void setNext(Handler next) {
+        this.next = next;
+    }
+
+    abstract void handle(String request);
+}
+
+⚡ Remaining Patterns (Concept Summary)
+Pattern	Purpose
+Bridge	Decouple abstraction from implementation
+Composite	Tree structure representation
+Flyweight	Share objects to save memory
+Command	Encapsulate request as object
+State	Behavior changes with state
+Iterator	Sequential access
+Mediator	Central communication
+Memento	Restore previous state
+Interpreter	Language interpreter
