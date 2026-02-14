@@ -1,0 +1,483 @@
+☕ Java 8 (2014) – The Game Changer
+
+This is where modern Java really started.
+
+1️⃣ Lambda Expressions
+
+Functional-style programming.
+
+// Before Java 8
+Runnable r = new Runnable() {
+    public void run() {
+        System.out.println("Hello");
+    }
+};
+
+
+Runnable r = () -> System.out.println("Hello");
+
+
+👉 Used heavily in Streams, collections, and Spring.
+
+2️⃣ Functional Interfaces
+
+Interface with one abstract method.
+
+@FunctionalInterface
+interface MyFunc {
+    void sayHello();
+}
+
+
+Built-in ones:
+
+Predicate<T>
+
+Function<T, R>
+
+Consumer<T>
+
+Supplier<T>
+
+3️⃣ Streams API 🔥
+
+Process collections in functional style.
+
+List<String> names = Arrays.asList("Ram", "Shyam", "Aman");
+
+names.stream()
+     .filter(name -> name.startsWith("A"))
+     .forEach(System.out::println);
+
+
+💡 Used heavily in backend filtering logic.
+
+4️⃣ Default & Static Methods in Interface
+interface Test {
+    default void show() {
+        System.out.println("Default method");
+    }
+}
+
+5️⃣ Optional Class
+
+Avoids NullPointerException.
+
+Optional<String> name = Optional.ofNullable(getName());
+name.ifPresent(System.out::println);
+
+6️⃣ New Date/Time API (java.time)
+LocalDate date = LocalDate.now();
+LocalDateTime time = LocalDateTime.now();
+
+
+Much better than Date and Calendar.
+
+☕ Java 9 (2017)
+1️⃣ Module System (Project Jigsaw)
+module my.module {
+    requires java.sql;
+}
+
+
+Rare in Spring projects but good to know.
+
+2️⃣ Factory Methods for Collections
+List<String> list = List.of("A", "B", "C");
+
+
+Immutable collections.
+
+3️⃣ Stream Improvements
+Stream.of(1,2,3,4)
+      .takeWhile(n -> n < 3)
+      .forEach(System.out::println);
+
+☕ Java 10
+🔹 var Keyword (Local Variable Type Inference)
+var name = "Aditya";
+
+
+⚠️ Only for local variables.
+
+☕ Java 11 (LTS)
+
+Very important for enterprise.
+
+1️⃣ String Enhancements
+"  hello  ".strip();
+"".isBlank();
+"Hi".repeat(3);
+
+2️⃣ HttpClient API
+HttpClient client = HttpClient.newHttpClient();
+
+
+Modern replacement for HttpURLConnection.
+
+3️⃣ Files read/write methods
+String content = Files.readString(Path.of("file.txt"));
+
+☕ Java 12–13
+
+Mostly preview features.
+
+Switch Expression (finalized in Java 14)
+int result = switch(day) {
+    case "MON" -> 1;
+    case "TUE" -> 2;
+    default -> 0;
+};
+
+
+No need for break statements.
+
+☕ Java 14
+🔹 Records (Preview → final in 16)
+
+Immutable data classes.
+
+☕ Java 15
+🔹 Text Blocks
+String json = """
+{
+  "name": "Aditya"
+}
+""";
+
+
+Perfect for SQL/JSON in backend.
+
+☕ Java 16
+🔥 Records (Final)
+public record User(String name, int age) {}
+
+
+Auto-generates:
+
+constructor
+
+getters
+
+equals()
+
+hashCode()
+
+toString()
+
+🔥 Very popular in modern Spring Boot.
+
+☕ Java 17 (LTS)
+
+Major enterprise version.
+
+1️⃣ Sealed Classes
+
+Restrict inheritance.
+
+public sealed class Shape
+    permits Circle, Rectangle {}
+
+final class Circle extends Shape {}
+
+
+Used in domain modeling.
+
+2️⃣ Pattern Matching for instanceof
+if (obj instanceof String s) {
+    System.out.println(s.length());
+}
+
+
+Cleaner code.
+
+☕ Java 18–19
+
+Mostly improvements + preview.
+
+🔹 Virtual Threads (Preview in 19)
+
+Huge for scalability.
+
+☕ Java 20
+
+Preview improvements for pattern matching.
+
+☕ Java 21 (LTS – Latest Major)
+
+Very important right now.
+
+1️⃣ Virtual Threads (Final) 🚀
+
+Lightweight threads.
+
+Thread.startVirtualThread(() -> {
+    System.out.println("Running");
+});
+
+
+🔥 Game changer for high-concurrency systems.
+
+2️⃣ Pattern Matching for Switch (Final)
+switch(obj) {
+    case String s -> System.out.println("String: " + s);
+    case Integer i -> System.out.println("Integer: " + i);
+    default -> {}
+}
+
+3️⃣ Record Patterns
+if (obj instanceof User(String name, int age)) {
+    System.out.println(name);
+}
+
+🔥 Interview Tip for You (Important)
+
+If interviewer asks:
+
+“What Java features do you use in your project?”
+
+You can say:
+
+Java 8 Streams & Lambda
+
+Optional
+
+java.time API
+
+var (Java 10)
+
+Switch expressions
+
+Records (DTO modeling)
+
+Pattern matching
+
+Virtual threads (if using Java 21)
+
+
+
+
+
+☕ Java 8 (MOST IMPORTANT – GAME CHANGER) 🔥🔥🔥
+1️⃣ Lambda Expressions 🔥
+
+Write concise functional-style code.
+
+list.forEach(e -> System.out.println(e));
+
+2️⃣ Functional Interfaces 🔥
+
+Interface with only one abstract method.
+
+@FunctionalInterface
+interface MyFunc {
+    void run();
+}
+
+
+Examples:
+
+Runnable
+
+Callable
+
+Comparator
+
+Predicate, Function, Consumer, Supplier
+
+3️⃣ Stream API 🔥🔥
+
+Process collections in a declarative way.
+
+list.stream()
+    .filter(x -> x > 10)
+    .map(x -> x * 2)
+    .forEach(System.out::println);
+
+4️⃣ Default Methods in Interfaces 🔥
+
+Add method implementations without breaking existing classes.
+
+interface A {
+    default void show() {
+        System.out.println("Hello");
+    }
+}
+
+5️⃣ Optional Class 🔥
+
+Avoid NullPointerException.
+
+Optional<String> name = Optional.ofNullable(str);
+name.ifPresent(System.out::println);
+
+6️⃣ Method References
+
+Cleaner lambda expressions.
+
+list.forEach(System.out::println);
+
+7️⃣ New Date & Time API 🔥
+
+Thread-safe and immutable.
+
+LocalDate.now();
+LocalDateTime.now();
+
+8️⃣ Nashorn JavaScript Engine
+
+Run JavaScript inside Java (later deprecated).
+
+9️⃣ Parallel Streams
+
+Multi-core processing.
+
+list.parallelStream().forEach(...);
+
+🔥 Java 8 Interview One-Liner
+
+Java 8 introduced functional programming via lambdas, streams, and default methods.
+
+☕ Java 17 (LTS – ENTERPRISE FAVORITE) 🔥🔥
+1️⃣ Sealed Classes 🔥
+
+Restrict which classes can extend a class.
+
+sealed class Shape permits Circle, Square {}
+
+2️⃣ Records 🔥🔥
+
+Immutable data carrier class (DTO replacement).
+
+record Employee(int id, String name) {}
+
+
+Auto-generates:
+
+constructor
+
+getters
+
+equals(), hashCode(), toString()
+
+3️⃣ Pattern Matching for instanceof 🔥
+
+No explicit casting.
+
+if (obj instanceof String s) {
+    System.out.println(s.length());
+}
+
+4️⃣ Switch Expressions 🔥🔥
+
+More powerful switch.
+
+int result = switch(day) {
+    case 1, 2 -> 10;
+    case 3 -> 20;
+    default -> 0;
+};
+
+5️⃣ Text Blocks 🔥
+
+Multi-line strings.
+
+String sql = """
+    SELECT * FROM users
+    WHERE id = 1
+    """;
+
+6️⃣ Strong Encapsulation of JDK Internals
+
+More secure, fewer hacks.
+
+7️⃣ New Garbage Collectors
+
+Improved G1
+
+ZGC improvements
+
+8️⃣ Deprecations & Removals
+
+Applets removed
+
+SecurityManager deprecated
+
+🔥 Java 17 Interview One-Liner
+
+Java 17 focuses on immutability, safer inheritance, and cleaner syntax with records and sealed classes.
+
+☕ Java 21 (LATEST LTS – MODERN JAVA) 🔥🔥🔥
+1️⃣ Virtual Threads (Project Loom) 🔥🔥🔥
+
+Massive concurrency with lightweight threads.
+
+Thread.startVirtualThread(() -> {
+    System.out.println("Hello");
+});
+
+
+👉 Millions of threads with minimal memory.
+
+2️⃣ Structured Concurrency 🔥
+
+Manage multiple tasks as a unit.
+
+try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+    scope.fork(task1);
+    scope.fork(task2);
+    scope.join();
+}
+
+3️⃣ Pattern Matching for Switch 🔥🔥
+
+Advanced pattern matching.
+
+switch (obj) {
+    case Integer i -> System.out.println(i);
+    case String s -> System.out.println(s);
+    default -> {}
+}
+
+4️⃣ Record Patterns 🔥
+
+Destructure records easily.
+
+if (obj instanceof Employee(int id, String name)) {
+    System.out.println(name);
+}
+
+5️⃣ Sequenced Collections 🔥
+
+Guaranteed first/last element access.
+
+list.getFirst();
+list.getLast();
+
+
+Applies to:
+
+List
+
+Set
+
+Deque
+
+6️⃣ String Templates (Preview)
+
+Cleaner string interpolation.
+
+String msg = STR."Hello \{name}";
+
+7️⃣ Scoped Values
+
+Safer alternative to ThreadLocal.
+
+8️⃣ Foreign Function & Memory API
+
+Interact with native code safely.
+
+
+
+
+“Java 8 introduced functional programming, Java 17 focused on immutability and safer design, and Java 21 modernized concurrency with virtual threads.”
