@@ -1,0 +1,503 @@
+We’ll cover:
+
+Stream Creation
+
+Intermediate Operations
+
+Terminal Operations
+
+Collectors
+
+Parallel Streams
+
+Internal Working & Best Practices
+
+🔹 1️⃣ Stream Creation Methods
+From Collection
+List<String> list = Arrays.asList("A", "B", "C");
+Stream<String> stream = list.stream();
+
+From Array
+int[] arr = {1,2,3};
+IntStream stream = Arrays.stream(arr);
+
+Using Stream.of()
+Stream<String> stream = Stream.of("A", "B", "C");
+
+Using Stream.generate()
+
+Infinite stream
+
+Stream.generate(() -> "Hello").limit(3).forEach(System.out::println);
+
+Using Stream.iterate()
+Stream.iterate(1, n -> n + 1)
+      .limit(5)
+      .forEach(System.out::println);
+
+🔹 2️⃣ Intermediate Operations (Lazy)
+
+These return another stream.
+
+✅ filter()
+
+Filters elements based on condition.
+
+list.stream()
+    .filter(s -> s.startsWith("A"))
+    .forEach(System.out::println);
+
+
+Used for: conditional selection
+
+✅ map()
+
+Transforms data.
+
+list.stream()
+    .map(String::toLowerCase)
+    .forEach(System.out::println);
+
+
+Used for: data transformation
+
+✅ flatMap()
+
+Flattens nested structures.
+
+List<List<String>> nested = Arrays.asList(
+    Arrays.asList("A","B"),
+    Arrays.asList("C","D")
+);
+
+nested.stream()
+      .flatMap(Collection::stream)
+      .forEach(System.out::println);
+
+
+Used for: List<List<T>> → List<T>
+
+✅ distinct()
+
+Removes duplicates.
+
+Stream.of(1,2,2,3)
+      .distinct()
+      .forEach(System.out::println);
+
+✅ sorted()
+
+Natural sorting:
+
+list.stream().sorted().forEach(System.out::println);
+
+
+Custom sorting:
+
+list.stream()
+    .sorted((a,b) -> b.compareTo(a))
+    .forEach(System.out::println);
+
+✅ peek()
+
+Debugging purpose.
+
+list.stream()
+    .peek(System.out::println)
+    .map(String::toLowerCase)
+    .collect(Collectors.toList());
+
+
+⚠ Don't use for logic.
+
+✅ limit()
+Stream.iterate(1, n -> n+1)
+      .limit(5)
+      .forEach(System.out::println);
+
+✅ skip()
+Stream.of(1,2,3,4)
+      .skip(2)
+      .forEach(System.out::println);
+
+🔹 3️⃣ Terminal Operations
+
+These trigger execution.
+
+✅ forEach()
+list.stream().forEach(System.out::println);
+
+✅ collect()
+
+Most important method.
+
+List<String> result =
+    list.stream().collect(Collectors.toList());
+
+✅ reduce()
+
+Used for aggregation.
+
+int sum = Stream.of(1,2,3,4)
+                .reduce(0, Integer::sum);
+
+✅ count()
+long count = list.stream().count();
+
+✅ anyMatch()
+boolean exists = list.stream()
+                     .anyMatch(s -> s.equals("A"));
+
+✅ allMatch()
+boolean all = list.stream()
+                  .allMatch(s -> s.length() > 0);
+
+✅ noneMatch()
+boolean none = list.stream()
+                   .noneMatch(s -> s.equals("Z"));
+
+✅ findFirst()
+Optional<String> first =
+    list.stream().findFirst();
+
+✅ findAny()
+
+Used mostly in parallel streams.
+
+Optional<String> any =
+    list.stream().findAny();
+
+🔹 4️⃣ Collectors (Very Important for Interviews)
+toList()
+.collect(Collectors.toList());
+
+toSet()
+.collect(Collectors.toSet());
+
+joining()
+String result = list.stream()
+                    .collect(Collectors.joining(","));
+
+groupingBy()
+Map<Integer, List<String>> grouped =
+    list.stream()
+        .collect(Collectors.groupingBy(String::length));
+
+partitioningBy()
+
+Splits into true/false.
+
+Map<Boolean, List<String>> partition =
+    list.stream()
+        .collect(Collectors.partitioningBy(s -> s.length() > 3));
+
+counting()
+long count =
+    list.stream()
+        .collect(Collectors.counting());
+
+mapping()
+list.stream()
+    .collect(Collectors.mapping(String::toUpperCase,
+             Collectors.toList()));
+
+🔹 5️⃣ Primitive Streams
+
+Better performance.
+
+IntStream
+
+LongStream
+
+DoubleStream
+
+Example:
+
+IntStream.range(1, 5)
+         .sum();
+
+🔹 6️⃣ Parallel Streams
+list.parallelStream()
+    .forEach(System.out::println);
+
+
+⚠ Use carefully:
+
+Avoid shared mutable state
+
+Good for CPU-heavy operations
+
+Not always faster
+
+🔹 7️⃣ Internal Working (Interview Gold ⭐)
+
+Stream pipeline works in 3 steps:
+
+Source
+
+Intermediate operations (lazy)
+
+Terminal operation (triggers execution)
+
+Key concept: Lazy Evaluation
+
+filter/map not executed until terminal method runs.
+
+
+
+
+Parallel streams look simple… but they can either boost performance 🚀 or silently ruin your application 💀 if used wrongly.
+
+Let’s go deep.
+
+🔥 What is Parallel Stream?
+
+A parallel stream divides data into multiple chunks and processes them concurrently using multiple threads.
+
+Instead of:
+
+list.stream()
+
+
+You use:
+
+list.parallelStream()
+
+
+OR
+
+list.stream().parallel()
+
+
+Both are same.
+
+🧠 How It Works Internally
+
+Parallel stream uses:
+
+ForkJoinPool.commonPool()
+
+Spliterator
+
+Divide & Conquer algorithm
+
+Steps internally:
+
+Data source splits into chunks (using Spliterator)
+
+Each chunk runs in separate thread
+
+Results are merged (combiner function)
+
+Think of it like:
+
+👉 Break list into parts
+👉 Process parts in parallel
+👉 Combine results
+
+🔹 Example 1 – Basic
+List<Integer> list = List.of(1,2,3,4,5,6,7,8);
+
+list.parallelStream()
+    .forEach(System.out::println);
+
+
+⚠ Order is NOT guaranteed.
+
+🔹 Ordered Output
+list.parallelStream()
+    .forEachOrdered(System.out::println);
+
+
+✔ Maintains order
+❌ Slightly slower
+
+🔹 Real Performance Example
+long start = System.currentTimeMillis();
+
+IntStream.range(1, 1_000_000)
+         .parallel()
+         .sum();
+
+long end = System.currentTimeMillis();
+
+System.out.println(end - start);
+
+
+Good for:
+
+CPU intensive tasks
+
+Large datasets
+
+Bad for:
+
+Small collections
+
+I/O operations
+
+Database calls
+
+🚨 VERY IMPORTANT – Thread Safety Problem
+
+❌ Dangerous example:
+
+List<Integer> list = new ArrayList<>();
+
+IntStream.range(1, 1000)
+         .parallel()
+         .forEach(list::add);
+
+
+This causes:
+
+Race condition
+
+Data corruption
+
+Because ArrayList is NOT thread safe.
+
+✅ Safe Way
+
+Use:
+
+List<Integer> list =
+    IntStream.range(1,1000)
+             .parallel()
+             .boxed()
+             .collect(Collectors.toList());
+
+
+Collectors handle thread safety internally.
+
+🔥 Reduce in Parallel (Important Interview Question)
+
+Wrong way:
+
+stream.parallel().reduce(0, (a,b) -> a-b);
+
+
+Subtraction is NOT associative.
+
+Parallel reduce requires:
+
+✔ Associative
+✔ Stateless
+✔ Non-interfering
+
+Correct example:
+
+stream.parallel().reduce(0, Integer::sum);
+
+🧩 When Parallel Stream Improves Performance
+
+✔ Large data (10k+ elements)
+✔ CPU-heavy computations
+✔ No shared mutable state
+✔ Independent operations
+
+❌ When It Makes Things Worse
+
+❌ Small collections
+❌ Blocking I/O
+❌ Database queries
+❌ Synchronized blocks
+❌ Complex stateful logic
+
+🏗 ForkJoinPool Details
+
+Parallel stream uses:
+
+ForkJoinPool.commonPool()
+
+
+Default thread count:
+
+👉 number of CPU cores - 1
+
+You can override using:
+
+System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "4");
+
+
+But generally NOT recommended in production.
+
+🧠 Spliterator (Advanced Concept)
+
+Spliterator:
+
+Splits data efficiently
+
+Supports parallel execution
+
+Has characteristics:
+
+ORDERED
+
+DISTINCT
+
+SORTED
+
+SIZED
+
+ArrayList splits efficiently
+LinkedList splits poorly
+
+Interview gold point ⭐
+
+🔬 Performance Reality Check
+
+Parallel stream has overhead:
+
+Thread management
+
+Task splitting
+
+Result combining
+
+If dataset small → overhead > benefit
+
+🧪 Difference: stream() vs parallelStream()
+Feature	stream()	parallelStream()
+Thread	Single	Multiple
+Order	Maintained	Not guaranteed
+Speed	Stable	Depends
+Safety	Safe	Risky if mutable
+⚠ Common Mistakes
+
+Modifying shared variable
+
+Using non-thread-safe collection
+
+Assuming order
+
+Using non-associative reduce
+
+Using parallel for database calls
+
+💡 Best Practice Rule
+
+Use parallel stream only if:
+
+✔ Pure function
+✔ Large dataset
+✔ CPU-heavy
+✔ No shared state
+
+Otherwise → use normal stream.
+
+🚀 Interview Question: Why parallel stream is not always faster?
+
+Answer:
+
+Because of:
+
+Thread creation overhead
+
+Context switching
+
+Splitting cost
+
+Merge cost
+
+Memory contention
